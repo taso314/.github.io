@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Agar.io - Delta Client</title>
     
+    <!-- 外部リソース -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.min.js"></script>
 
@@ -25,43 +26,15 @@
         }
     </style>
 
-    <!-- ★ Agar.io 公式 UI のクラッシュを完全防止するプロキシ初期化 ★ -->
+    <!-- Webpack パブリックパスの固定 -->
     <script>
-        // 未定義プロパティへの代入や参照を何でも自動で許容する再帰的 Proxy
-        function createSafeProxy() {
-            const handler = {
-                get(target, prop) {
-                    if (prop === 'customSkinTokensTotalCount') return 0;
-                    if (prop === 'getCustomSkinTokens') return () => 0;
-                    if (prop === 'get' || prop === 'has') return (k) => k || true;
-                    if (!(prop in target)) {
-                        target[prop] = createSafeProxy();
-                    }
-                    return target[prop];
-                },
-                set(target, prop, value) {
-                    target[prop] = value;
-                    return true;
-                }
-            };
-            return new Proxy({}, handler);
-        }
-
-        // Agar.io 公式スクリプトが参照する主要なグローバル変数を網羅
-        window.MC = window.MC || createSafeProxy();
-        window.agario = window.agario || createSafeProxy();
-        window.Env = window.Env || createSafeProxy();
-        window.agarApp = window.agarApp || createSafeProxy();
-        window.master = window.master || createSafeProxy();
-
-        // Webpack パブリックパス
         window.__webpack_public_path__ = "https://<your-username>.github.io/<your-repo>/";
     </script>
 
-    <!-- Webpack ランタイムとメインスクリプト -->
-    <script defer="defer" src="https://taso314.github.io/.github.io/90484b1a6e559a7684a9.runtimechunk~index.js"></script>
-    <script defer="defer" src="https://taso314.github.io/.github.io/90484b1a6e559a7684a9.styles.js"></script>
-    <script defer="defer" src="https://taso314.github.io/.github.io/index.js"></script>
+    <!-- ★ 3つのスクリプトを順番通りに読み込む（styles.js を復活） ★ -->
+    <script defer src="90484b1a6e559a7684a9.runtimechunk~index.js"></script>
+    <script defer src="90484b1a6e559a7684a9.styles.js"></script>
+    <script defer src="index.js"></script>
 </head>
 <body>
     <canvas id="canvas"></canvas>
