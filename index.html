@@ -26,12 +26,12 @@
         }
     </style>
 
-    <!-- Webpack パブリックパスの固定 -->
+    <!-- Webpack パブリックパスの指定のみ残す（Proxyは全削除） -->
     <script>
         window.__webpack_public_path__ = "https://<your-username>.github.io/<your-repo>/";
     </script>
 
-    <!-- ★ 3つのスクリプトを順番通りに読み込む（styles.js を復活） ★ -->
+    <!-- Webpack スクリプト群（正規の順序） -->
     <script defer src="90484b1a6e559a7684a9.runtimechunk~index.js"></script>
     <script defer src="90484b1a6e559a7684a9.styles.js"></script>
     <script defer src="index.js"></script>
