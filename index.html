@@ -26,15 +26,23 @@
         }
     </style>
 
-    <!-- Webpack パブリックパスの指定のみ残す（Proxyは全削除） -->
+    <!-- Webpack パブリックパス固定 -->
     <script>
         window.__webpack_public_path__ = "https://<your-username>.github.io/<your-repo>/";
     </script>
 
-    <!-- Webpack スクリプト群（正規の順序） -->
-    <script defer src="90484b1a6e559a7684a9.runtimechunk~index.js"></script>
-    <script defer src="90484b1a6e559a7684a9.styles.js"></script>
-    <script defer src="index.js"></script>
+    <!-- 1. ランタイムエンジン -->
+    <script defer src="https://<your-username>.github.io/<your-repo>/90484b1a6e559a7684a9.runtimechunk~index.js"></script>
+
+    <!-- 2. 必須の依存チャンク群（869, 607, 962, 834, 242） -->
+    <script defer src="https://<your-username>.github.io/<your-repo>/90484b1a6e559a7684a9.styles.js"></script>
+    <script defer src="https://<your-username>.github.io/<your-repo>/m37b6m.js"></script>
+    <script defer src="https://<your-username>.github.io/<your-repo>/962.js"></script>
+    <script defer src="https://<your-username>.github.io/<your-repo>/834.js"></script>
+    <script defer src="https://<your-username>.github.io/<your-repo>/242.js"></script>
+
+    <!-- 3. メインエントリー（上のチャンクが全て揃って初めて起動する） -->
+    <script defer src="https://<your-username>.github.io/<your-repo>/index.js"></script>
 </head>
 <body>
     <canvas id="canvas"></canvas>
