@@ -1,14 +1,11 @@
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Agar.io - Delta Client</title>
+    <title>Agar.io</title>
     
-    <!-- アイコン・フォント（安全なCDN指定） -->
+    <!-- 外部ライブラリ（アイコン・フォント・音声エンジン） -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
-    
-    <!-- 音声エンジン -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.min.js"></script>
 
     <style>
@@ -21,14 +18,19 @@
             overflow: hidden;
         }
     </style>
+
+    <!-- 1. Webpack の chunk 取得先を GitHub Pages に固定 -->
+    <script>
+        window.__webpack_public_path__ = "https://<your-username>.github.io/<your-repo>/";
+    </script>
+
+    <!-- 2. 手元に存在するファイル名（完全URL）を指定 -->
+    <script defer="defer" src="https://taso314.github.io/.github.io/90484b1a6e559a7684a9.runtimechunk~index.js"></script>
+    <script defer="defer" src="https://taso314.github.io/.github.io/index.js"></script>
 </head>
 <body>
+    <!-- Delta Client の UI と Canvas のマウント先 -->
     <div id="app_canvas"></div>
     <div id="app_ui"></div>
-
-    <!-- ★ ここをすべて GitHub Pages の完全な絶対URLで指定する ★ -->
-    <script src="https://taso314.github.io/.github.io/90484b1a6e559a7684a9.runtimechunk~index.js"></script>
-    <script src="https://taso314.github.io/.github.io/90484b1a6e559a7684a9.styles.js"></script>
-    <script src="https://taso314.github.io/.github.io/index.js"></script>
 </body>
 </html>
