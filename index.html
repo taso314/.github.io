@@ -25,22 +25,34 @@
         }
     </style>
 
-    <!-- ★ Agar.io 公式 UI のクラッシュを防ぐ初期化ポリフィル ★ -->
+    <!-- ★ Agar.io 公式 UI のクラッシュを完全防止するプロキシ初期化 ★ -->
     <script>
-        window.Env = window.Env || {};
-        window.MC = window.MC || {
-            API: {
-                customSkinTokensTotalCount: 0,
-                getCustomSkinTokens: function() { return 0; }
-            },
-            i18n: {
-                get: function(k) { return k; },
-                has: function() { return true; }
-            }
-        };
-        window.agario = window.agario || {};
-        window.agario.home = window.agario.home || {};
-        window.agarApp = window.agarApp || {};
+        // 未定義プロパティへの代入や参照を何でも自動で許容する再帰的 Proxy
+        function createSafeProxy() {
+            const handler = {
+                get(target, prop) {
+                    if (prop === 'customSkinTokensTotalCount') return 0;
+                    if (prop === 'getCustomSkinTokens') return () => 0;
+                    if (prop === 'get' || prop === 'has') return (k) => k || true;
+                    if (!(prop in target)) {
+                        target[prop] = createSafeProxy();
+                    }
+                    return target[prop];
+                },
+                set(target, prop, value) {
+                    target[prop] = value;
+                    return true;
+                }
+            };
+            return new Proxy({}, handler);
+        }
+
+        // Agar.io 公式スクリプトが参照する主要なグローバル変数を網羅
+        window.MC = window.MC || createSafeProxy();
+        window.agario = window.agario || createSafeProxy();
+        window.Env = window.Env || createSafeProxy();
+        window.agarApp = window.agarApp || createSafeProxy();
+        window.master = window.master || createSafeProxy();
 
         // Webpack パブリックパス
         window.__webpack_public_path__ = "https://<your-username>.github.io/<your-repo>/";
